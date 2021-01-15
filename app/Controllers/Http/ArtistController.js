@@ -13,13 +13,27 @@ const messages = {
   required: 'Campo obrigatório',
   min: 'Mínimo de caracteres não atingido',
   max: 'Máximo de caracteres excedido',
-  'id.exists': 'Este artista não existe'
+  'id.exists': 'Este artista não existe',
+  'direction.in': 'O valor deve ser "asc" ou "desc"',
+  'columnName.in': 'O valor deve ser "id" ou "name"',
+  'page.above': 'O valor mínimo é 0',
+  'perPage.above': 'O valor mínimo é 3',
 }
 
 class ArtistController {
   async index ({ request, response }) {
     try {
-      const { direction, columnName, page, perPage, query } = request.only(['direction', 'columnName', 'page', 'perPage', 'query'])
+      const data = request.only(['direction', 'columnName', 'page', 'perPage', 'query'])
+      const { direction, columnName, page, perPage, query } = data
+      const rulesIndex = {
+        direction: 'required|in:asc,desc',
+        columnName: 'required|in:id,name',
+        page: 'required|integer|above:-1',
+        perPage: 'required|integer|above:2',
+      }
+      const validation = await validateAll(data, rulesIndex, messages)
+      if (validation.fails()) return response.status(400).send(validation.messages())
+
       const artists = await Database.table('artists')
         .where(function() {
           if (query) {
