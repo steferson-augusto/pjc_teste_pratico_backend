@@ -7,3 +7,7 @@ Route.get('/', () => {
 })
 
 Route.post('/login', 'UserController.login')
+
+Route.group(() => {
+  Route.post('/users', 'UserController.store')
+}).middleware(['auth'])
