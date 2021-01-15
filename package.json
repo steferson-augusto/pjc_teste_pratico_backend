@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "serve:dev": "nodemon -L --watch app --watch start --watch bootstrap --watch config --watch .env -x node server.js"
   },
   "keywords": [
     "adonisjs",
@@ -24,6 +25,7 @@
     "@adonisjs/framework": "^5.0.9",
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.2.1",
+    "nodemon": "^2.0.7",
     "pg": "^8.5.1"
   },
   "devDependencies": {},
