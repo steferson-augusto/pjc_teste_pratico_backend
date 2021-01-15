@@ -45,8 +45,7 @@ class ArtistController {
         .paginate(Number(page) + 1, perPage)
 
       return response.status(200).send(artists)
-    } catch (error) {
-      console.log(error)
+    } catch {
       return response.status(500).send(responseError())
     }
   }
@@ -109,10 +108,7 @@ class ArtistController {
       const { id } = params
 
       const validation = await validateAll({ id }, rulesDestroy, messages)
-
       if (validation.fails()) return response.status(404).send(validation.messages())
-
-      await Album.query().where('artist_id', id).delete()
 
       const artist = await Artist.find(params.id)
       await artist.delete()
