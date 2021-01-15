@@ -9,7 +9,7 @@ Route.get('/', () => {
 Route.post('/login', 'UserController.login')
 
 Route.group(() => {
-  Route.post('/users', 'UserController.store')
+  Route.resource('/users', 'UserController').apiOnly()
 
   Route.resource('artists', 'ArtistController').apiOnly()
   Route.resource('albums', 'AlbumController').apiOnly()
