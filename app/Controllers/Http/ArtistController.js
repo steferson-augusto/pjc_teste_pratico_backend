@@ -6,7 +6,7 @@ const Artist = use('App/Models/Artist')
 const Album = use('App/Models/Album')
 const { responseError } = use('./Helpers/MessageError')
 
-const select = ['artist.id', 'artist.name']
+const select = ['artists.id', 'artists.name']
 const rules = { name: 'required|max:120|min:3' }
 
 const messages = {
@@ -45,7 +45,8 @@ class ArtistController {
         .paginate(Number(page) + 1, perPage)
 
       return response.status(200).send(artists)
-    } catch {
+    } catch (error) {
+      console.log(error)
       return response.status(500).send(responseError())
     }
   }
