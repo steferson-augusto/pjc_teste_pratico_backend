@@ -7,6 +7,9 @@ class AlbumSchema extends Schema {
   up () {
     this.create('albums', (table) => {
       table.increments()
+      table.string('name', 120).notNullable()
+      table.integer('artist_id').unsigned().references('id').inTable('artists')
+      table.integer('year').nullable()
       table.timestamps()
     })
   }
