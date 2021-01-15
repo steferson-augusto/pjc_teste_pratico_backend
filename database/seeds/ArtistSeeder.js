@@ -80,26 +80,16 @@ const data = [
 
 class ArtistSeeder {
   async run () {
-
-      const artistsPromises = await data.map(async ({ name, albums }) => {
-        try {
-          const artist = await Artist.create({ name })
-          const albumsPromises = albums.map(async album => {
-            try {
-              await Album.create({ ...album, artist_id: artist.id })
-            } catch (error) {
-              console.log(error)
-            }
-          })
-          await Promise.all(albumsPromises)
-        } catch (error) {
-          console.log(error)
-        }
-      })
-
-      await Promise.all(artistsPromises)
-
-
+    const cont = await Artist.getCount()
+    if (cont == 0) {
+      for (const artist of data) {
+        console.log(artist)
+          const artistSaved = await Artist.create({ name: artist.name })
+          for (const album of artist.albums) {
+            await Album.create({ ...album, artist_id: artistSaved.id })
+          }
+      }
+    }
   }
 }
 
