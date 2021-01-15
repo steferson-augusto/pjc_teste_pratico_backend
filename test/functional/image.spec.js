@@ -20,7 +20,7 @@ afterEach(async () => {
   await User.query().delete()
 })
 
-const dataUser = { username: 'Stéferson', email: 'steferson@email.com', password: '123456' }
+const dataUser = { name: 'Stéferson', email: 'steferson@email.com', password: '123456' }
 
 test('store', async ({ assert, client }) => {
   const user = await User.create(dataUser)
