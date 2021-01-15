@@ -12,7 +12,7 @@ services:
       - "5432:5432"
 
   server:
-    command: sh -c "npm run serve:dev"
+    command: sh -c "adonis migration:run && adonis seed && npm run serve:dev"
     depends_on:
       - db
     build: .
