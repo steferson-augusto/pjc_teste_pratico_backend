@@ -13,4 +13,5 @@ Route.group(() => {
 
   Route.resource('artists', 'ArtistController').apiOnly()
   Route.resource('albums', 'AlbumController').apiOnly()
+  Route.resource('images', 'ImageController').only(['store', 'destroy'])
 }).middleware(['auth'])
