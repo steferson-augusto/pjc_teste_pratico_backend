@@ -10,6 +10,8 @@ services:
       POSTGRES_DB: teste_pratico_db
     ports:
       - "5432:5432"
+    volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
 
   server:
     command: sh -c "adonis migration:run && adonis seed && npm run serve:dev"

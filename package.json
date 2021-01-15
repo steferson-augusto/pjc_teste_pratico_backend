@@ -27,6 +27,7 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.2.1",
     "@adonisjs/validator": "^5.0.6",
+    "@adonisjs/vow": "^1.0.17",
     "adonis-drive-minio": "0.0.8",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1"

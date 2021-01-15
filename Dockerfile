@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm i -g @adonisjs/cli nodemon
+RUN npm i -g @adonisjs/cli
 
 EXPOSE 3333
 EXPOSE 5432
