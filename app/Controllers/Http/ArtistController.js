@@ -13,6 +13,7 @@ const messages = {
   required: 'Campo obrigatório',
   min: 'Mínimo de caracteres não atingido',
   max: 'Máximo de caracteres excedido',
+  integer: 'O valor deve ser um inteiro válido',
   'id.exists': 'Este artista não existe',
   'direction.in': 'O valor deve ser "asc" ou "desc"',
   'columnName.in': 'O valor deve ser "id" ou "name"',
