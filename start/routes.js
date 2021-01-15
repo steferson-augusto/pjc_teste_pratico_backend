@@ -10,4 +10,6 @@ Route.post('/login', 'UserController.login')
 
 Route.group(() => {
   Route.post('/users', 'UserController.store')
+
+  Route.resource('artists', 'ArtistController').apiOnly()
 }).middleware(['auth'])
