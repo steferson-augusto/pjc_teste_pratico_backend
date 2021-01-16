@@ -7,7 +7,9 @@ const { responseError } = use('./Helpers/MessageError')
 
 const select = ['users.id', 'users.email', 'users.name']
 const rules = {
-  email: 'required|email|max:120|min:6'
+  email: 'required|email|max:50|min:7',
+  name: 'required|max:120|min:6',
+  password: 'required|max:30|min:8'
 }
 
 const messages = {
@@ -15,7 +17,8 @@ const messages = {
   min: 'Mínimo de caracteres não atingido',
   max: 'Máximo de caracteres excedido',
   integer: 'O valor deve ser um inteiro válido',
-  'id.exists': 'Este artista não existe',
+  email: 'Email inválido',
+  'id.exists': 'Este usuário não existe',
   'direction.in': 'O valor deve ser "asc" ou "desc"',
   'columnName.in': 'O valor deve ser "id", "email" ou "name"',
   'page.above': 'O valor mínimo é 0',
@@ -36,7 +39,7 @@ class UserController {
     }
   }
 
-  async index ({ request, response }) {
+  async index ({ request, response, auth }) {
     try {
       const data = request.only(['direction', 'columnName', 'page', 'perPage', 'query'])
       const { direction, columnName, page, perPage, query } = data
@@ -50,6 +53,7 @@ class UserController {
       if (validation.fails()) return response.status(400).send(validation.messages())
 
       const users = await Database.table('users')
+        .where('id', '!=', auth.user.id)
         .where(function() {
           if (query) {
             this.where('users.name', 'ilike', `%${query}%`)
@@ -100,7 +104,8 @@ class UserController {
   async update ({ params, request, response }) {
     try {
       const rulesUpdate = { ...rules, id: "required|exists:users,id" }
-      const data = request.only(['name'])
+      delete rulesUpdate.password
+      const data = request.only(['name', 'email'])
       const { id } = params
 
       const validation = await validateAll({ ...data, id }, rulesUpdate, messages)
