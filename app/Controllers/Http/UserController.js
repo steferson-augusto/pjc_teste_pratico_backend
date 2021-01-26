@@ -35,7 +35,7 @@ class UserController {
         : await auth.withRefreshToken().attempt(email, password)
       return token
     } catch {
-      return response.status(500).send(responseError())
+      return response.status(500).send(responseError('loginFail'))
     }
   }
 

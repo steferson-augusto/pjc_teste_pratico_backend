@@ -33,12 +33,14 @@ class AlbumController {
       const { direction, columnName, page, perPage, query } = data
       const rulesIndex = {
         direction: 'required|in:asc,desc',
-        columnName: 'required|in:id,name,year',
+        columnName: 'required|in:id,name,year,artist',
         page: 'required|integer|above:-1',
         perPage: 'required|integer|above:2',
       }
       const validation = await validateAll(data, rulesIndex, messages)
       if (validation.fails()) return response.status(400).send(validation.messages())
+
+      const orderByColumn = columnName === 'artist' ? 'artist' : `albums.${columnName}`
 
       const albums = await Database.table('albums')
         .where(function() {
@@ -49,7 +51,7 @@ class AlbumController {
         })
         .leftJoin('artists', 'albums.artist_id', 'artists.id')
         .select(select)
-        .orderBy(`albums.${columnName}`, direction)
+        .orderBy(orderByColumn, direction)
         .paginate(Number(page) + 1, perPage)
 
       return response.status(200).send(albums)
