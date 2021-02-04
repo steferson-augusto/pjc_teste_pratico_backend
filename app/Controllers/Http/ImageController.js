@@ -28,24 +28,30 @@ class ImageController {
     try {
       const { album_id } = request.all()
 
-      const images = request.file('images', { types: ['image'], size: '2mb' })
+      const imageList = request.file('images', { types: ['image'], size: '2mb' })
+      let images = { _list: [] }
+      images._files = imageList._files ? imageList._files : [imageList]
 
       const validation = await validateAll({ album_id, images }, rules, messages)
       if (validation.fails()) return response.status(400).send(validation.messages())
 
+      let list = []
       for (const image of images._files) {
         const trx = await Database.beginTransaction()
         try {
           const name = `${album_id}/${new Date().getTime()}.${image.subtype}`
-          await Image.create({ name, album_id }, trx)
+          const saved = await Image.create({ name, album_id }, trx)
           await Drive.disk('minio').put(image.tmpPath, name)
+          const url = await Drive.disk('minio').getSignedUrl(name)
+          const img = saved.toJSON()
+          list.push({ ...img, url })
           await trx.commit()
         } catch {
           await trx.rollback()
         }
       }
 
-      return response.status(201).send({ message: 'Salvo com sucesso' })
+      return response.status(201).send({ message: 'Salvo com sucesso', images: list })
     } catch {
       return response.status(500).send(responseError())
     }
