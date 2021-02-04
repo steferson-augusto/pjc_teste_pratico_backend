@@ -10,7 +10,11 @@ class Image extends Model {
 
     this.addHook('afterFetch', async (imageInstances) => {
       for (const image of imageInstances) {
-        image.url = await Drive.disk('minio').getSignedUrl(image.name)
+        try {
+          image.url = await Drive.disk('minio').getSignedUrl(image.name)
+        } catch (error) {
+          console.log(error)
+        }
       }
     })
   }
