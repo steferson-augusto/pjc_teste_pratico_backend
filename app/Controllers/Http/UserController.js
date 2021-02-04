@@ -18,6 +18,7 @@ const messages = {
   max: 'Máximo de caracteres excedido',
   integer: 'O valor deve ser um inteiro válido',
   email: 'Email inválido',
+  confirmed: 'Confirme a senha corretamente',
   'id.exists': 'Este usuário não existe',
   'direction.in': 'O valor deve ser "asc" ou "desc"',
   'columnName.in': 'O valor deve ser "id", "email" ou "name"',
@@ -101,22 +102,69 @@ class UserController {
     }
   }
 
-  async update ({ params, request, response }) {
+  async showAuthenticated ({ auth, response }) {
     try {
-      const rulesUpdate = { ...rules, id: "required|exists:users,id" }
+      const data = await auth.getUser()
+      const user = data.toJSON()
+      delete user.password
+      delete user.created_at
+      delete user.updated_at
+      return user
+    } catch {
+      return response.status(500).send(responseError())
+    }
+  }
+
+  async update ({ auth, request, response }) {
+    try {
+      const rulesUpdate = { ...rules }
       delete rulesUpdate.password
       const data = request.only(['name', 'email'])
-      const { id } = params
 
-      const validation = await validateAll({ ...data, id }, rulesUpdate, messages)
+      const validation = await validateAll(data, rulesUpdate, messages)
       if (validation.fails()) return response.status(400).send(validation.messages())
 
-      const user = await User.find(id)
+      const user = await User.find(auth.user.id)
       user.merge(data)
       await user.save()
+      delete user.password
+      delete user.created_at
+      delete user.updated_at
 
       return response.status(200).send({ user, message: 'Usuário atualizado com sucesso' })
     } catch {
+      return response.status(500).send(responseError())
+    }
+  }
+
+  async updatePassword ({ auth, request, response }) {
+    try {
+      const rulesUpdate = {
+        old_password: 'required|max:30|min:8',
+        password: 'required|confirmed|max:30|min:8'
+      }
+
+      const data = request.only(['password', 'old_password', 'password_confirmation'])
+      const validation = await validateAll(data, rulesUpdate, messages)
+      if (validation.fails()) return response.status(400).send(validation.messages())
+
+      try {
+        await auth.attempt(auth.user.email, data.old_password)
+      } catch {
+        return response.status(400).send(responseError(null, [{
+          field: 'old_password',
+          message: 'Sua senha atual não confere',
+          validation: 'confirmed'
+        }]))
+      }
+
+      const user = await User.find(auth.user.id)
+      user.password = data.password
+      await user.save()
+
+      return response.status(200).send({ message: 'Senha atualizada com sucesso' })
+    } catch (error) {
+      console.log(error)
       return response.status(500).send(responseError())
     }
   }
