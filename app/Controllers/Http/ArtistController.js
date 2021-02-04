@@ -3,7 +3,6 @@
 const Database = use('Database')
 const { validateAll } = use('Validator')
 const Artist = use('App/Models/Artist')
-const Album = use('App/Models/Album')
 const { responseError } = use('./Helpers/MessageError')
 
 const select = ['artists.id', 'artists.name']
@@ -27,25 +26,30 @@ class ArtistController {
       const data = request.only(['direction', 'columnName', 'page', 'perPage', 'query'])
       const { direction, columnName, page, perPage, query } = data
       const rulesIndex = {
-        direction: 'required|in:asc,desc',
-        columnName: 'required|in:id,name',
-        page: 'required|integer|above:-1',
-        perPage: 'required|integer|above:2',
+        direction: 'in:asc,desc',
+        columnName: 'in:id,name',
+        page: 'integer|above:-1',
+        perPage: 'integer|above:2',
       }
       const validation = await validateAll(data, rulesIndex, messages)
       if (validation.fails()) return response.status(400).send(validation.messages())
 
-      const artists = await Database.table('artists')
-        .where(function() {
-          if (query) {
-            this.where('artists.name', 'ilike', `%${query}%`)
-          }
-        })
-        .select(select)
-        .orderBy(`artists.${columnName}`, direction)
-        .paginate(Number(page) + 1, perPage)
+      if (direction && columnName && page && perPage) {
+        const artists = await Database.table('artists')
+          .where(function() {
+            if (query) {
+              this.where('artists.name', 'ilike', `%${query}%`)
+            }
+          })
+          .select(select)
+          .orderBy(`artists.${columnName}`, direction)
+          .paginate(Number(page) + 1, perPage)
 
-      return response.status(200).send(artists)
+        return response.status(200).send(artists)
+      } else {
+        const artists = await Database.select('id', 'name').table('artists').orderBy('name', 'asc')
+        return response.status(200).send(artists)
+      }
     } catch {
       return response.status(500).send(responseError())
     }
