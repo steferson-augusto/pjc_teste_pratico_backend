@@ -22,7 +22,7 @@ const responseError = (kind = 'requestFail', errors = [], message = e, field = '
     if (kind && MessageError[kind]) {
         return MessageError[kind]
     } else {
-      const data = errors.length > 0 ? { error: errors } : { error: [{ message, field }] }
+      const data = errors.length > 0 ? errors : { error: [{ message, field }] }
       return data
     }
 }
