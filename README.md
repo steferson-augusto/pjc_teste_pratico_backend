@@ -1,28 +1,102 @@
-# Adonis API application
+# Teste Prático - Backend
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+Esse projeto foi construído com Adonis JS, Postgres e Docker.
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+<h4 align="center">
+  <a href="#started" >
+    Instalação
+  </a>
+  |
+  <a href="#tests" >
+    Testes Automatizados
+  </a>
+  |
+  <a href="#utils" >
+    Utilidades
+  </a>
+  |
+  <a href="#license" >
+    Licença
+  </a>
+</h4>
 
-## Setup
+<h2 name="started">🔧 Instalação</h2>
 
-Use the adonis command to install the blueprint
+Clone ou baixe o projeto do Github
 
 ```bash
-adonis new yardstick --api-only
+git clone https://github.com/steferson-augusto/pjc_teste_pratico_backend.git
 ```
 
-or manually clone the repo and then run `npm install`.
+Abra o diretório do projeto e execute `npm install`.
 
+Ainda na raiz do projeto, execute `docker-compose up`.
 
-### Migrations
+Agora espere a montagem dos containers
 
-Run the following command to run startup migrations.
+<p align="center">
+  <img src="./github/docker.png" alt="docker" width="600" >
+</p>
+
+Espere a conclusão das migrations
+
+<p align="center">
+  <img src="./github/migrations.png" alt="migrations" width="320" >
+</p>
+
+Aguarde os seeds serem concluídos
+
+<p align="center">
+  <img src="./github/seed.png" alt="seed" width="520" >
+</p>
+
+Espere a inicialização do servidor
+
+<p align="center">
+  <img src="./github/started.png" alt="iniciado" width="360" >
+</p>
+
+Pronto! A aplicação já está pronta para uso através de `http://localhost:3333/`
+
+<p align="center">
+  <img src="./github/access.png" alt="iniciado" width="420" >
+</p>
+
+<br/>
+<h2 name="tests">🔧 Testes Automatizados</h2>
+
+Para executar testes automatizados basta executar o seguinte comando:
 
 ```js
-adonis migration:run
+adonis test
 ```
+
+<p align="center">
+  <img src="./github/tests.png" alt="iniciado" width="380" >
+</p>
+
+<br/>
+<h2 name="utils">📏 Utilidades</h2>
+
+<ul>
+  <li>
+    <a href="https://adonisjs.com/docs/4.1/installation" target="_blank">Adonis JS</a>
+    - documentação oficial
+  </li>
+
+  <li>
+    <a href="https://github.com/steferson-augusto/pjc_teste_pratico_backend/blob/master/Insomnia_backend.json" target="_blank">Insomnia File</a> - arquivo exportado do Insomnia com endpoints configuradas
+  </li>
+
+  <li>
+    <a href="https://drive.google.com/file/d/1QdF-veSF1TIU-oT4g_cnG5Qe3JxXPVtv/view" target="_blank">Teste Prático</a> - arquivo guia para a criação deste projeto
+  </li>
+</ul>
+
+<br/>
+<h2 name="license">📝 Licença</h2>
+<p>Este projeto está sob uma licença MIT. Veja mais informações em <a href="https://github.com/steferson-augusto/puppeteer-image-name/blob/main/LICENSE" target="_blank">LICENSE</a>.</p>
+
+---
+
+<p>Criado por <a href="https://www.linkedin.com/in/st%C3%A9ferson-augusto-4b0b9b124/" target="_blank">Stéferson Augusto</a></p>
