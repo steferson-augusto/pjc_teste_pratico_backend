@@ -1,8 +1,8 @@
 {
-  "name": "adonis-api-app",
+  "name": "pjcbackend",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "description": "API para teste prático da PJC",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",

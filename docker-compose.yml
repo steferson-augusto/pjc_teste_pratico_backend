@@ -14,7 +14,7 @@ services:
       - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
 
   server:
-    command: sh -c "adonis migration:run && adonis seed && npm run serve:dev"
+    command: sh -c "adonis migration:run --force && adonis seed --force && adonis serve"
     depends_on:
       - db
     build: .

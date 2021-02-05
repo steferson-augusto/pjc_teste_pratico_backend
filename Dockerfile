@@ -4,11 +4,13 @@ WORKDIR /usr/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --silent
 
 COPY . .
 
-RUN npm i -g @adonisjs/cli
+RUN npm install pm2 -g --silent
+
+RUN npm i -g @adonisjs/cli --silent
 
 EXPOSE 3333
 EXPOSE 5432
