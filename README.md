@@ -63,6 +63,14 @@ Pronto! A aplicação já está pronta para uso através de `http://localhost:33
   <img src="./github/access.png" alt="iniciado" width="420" >
 </p>
 
+Após iniciado, certifique-se de que existe um bucket chamado `miniotest` em `https://play.min.io/minio/`, caso contrário não será possível adicionar imagens de capa a um álbum.
+
+Não há rotas para cadastro de usuário e só existe um usuário cadastrado via seed. O acesso é:
+
+<b>Email:</b> superuser@email.com
+
+<b>Senha:</b> aIJUyry6D7wZleDm
+
 <br/>
 <h2 name="tests">🔧 Testes Automatizados</h2>
 
