@@ -10,8 +10,8 @@ Route.post('/login', 'UserController.login')
 
 Route.group(() => {
   Route.get('/users/authenticated', 'UserController.showAuthenticated')
+  Route.put('/users/authenticated', 'UserController.update')
   Route.put('/users/password', 'UserController.updatePassword')
-  Route.resource('/users', 'UserController').apiOnly()
 
   Route.resource('artists', 'ArtistController').apiOnly()
   Route.resource('albums', 'AlbumController').apiOnly()
