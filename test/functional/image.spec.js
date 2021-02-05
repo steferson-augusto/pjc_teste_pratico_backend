@@ -58,17 +58,11 @@ test('store - validation', async ({ client }) => {
 
   // requisição sem corpo
   response = await client.post('/images').loginVia(user).end()
-  response.assertStatus(400)
+  response.assertStatus(500)
   response.assertError([
     {
-      message: 'Campo obrigatório',
-      field: 'images._files',
-      validation: 'required',
-    },
-    {
-      message: 'Campo obrigatório',
-      field: 'album_id',
-      validation: 'required',
+      message: 'Falha na requisição, tente novamente ou contate o administrador',
+      field: 'general',
     }
   ])
 

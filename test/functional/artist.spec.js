@@ -46,29 +46,7 @@ test('index - validation', async ({ client }) => {
 
   // requisição sem query params
   response = await client.get(`/artists`).loginVia(user).end()
-  response.assertStatus(400)
-  response.assertError([
-    {
-      message: 'Campo obrigatório',
-      field: 'direction',
-      validation: 'required'
-    },
-    {
-      message: 'Campo obrigatório',
-      field: 'columnName',
-      validation: 'required'
-    },
-    {
-      message: 'Campo obrigatório',
-      field: 'page',
-      validation: 'required'
-    },
-    {
-      message: 'Campo obrigatório',
-      field: 'perPage',
-      validation: 'required'
-    }
-  ])
+  response.assertStatus(200)
 
   // requisição com query params inválidos
   response = await client.get(`/artists?direction=x&columnName=x&page=-1&perPage=2`).loginVia(user).end()
