@@ -1,6 +1,7 @@
 # Teste Prático - Backend
 
 Esse projeto foi construído com Adonis JS, Postgres e Docker.
+De maneira que todos os critérios da avaliação foram alcançados.
 
 <h4 align="center">
   <a href="#started" >
